@@ -54,6 +54,8 @@ algorithm/
 |------|--------|
 | 박예진 | [@uiop5809](https://github.com/uiop5809) |
 | 김지호 | [@jihostudy](https://github.com/jihostudy) |
+| 심수연 | [@letthem](https://github.com/letthem) |
+| 정건우 | [@abcxj123](https://github.com/abcxj123) |
 
 ---
 
