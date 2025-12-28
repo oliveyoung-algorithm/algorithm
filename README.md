@@ -44,18 +44,20 @@ algorithm/
 ```
 
 예시:
+
 - `[PGS] 12345 타겟 넘버 (Lv.2)`
 - `[BOJ] 2557 Hello World (B5)`
 - `[SWEA] 1234 문제이름 (D3)`
+- `[LEET] 1234 문제이름 (Medium)`
 
 ## 참여자
 
-| 이름 | GitHub |
-|------|--------|
-| 박예진 | [@uiop5809](https://github.com/uiop5809) |
+| 이름   | GitHub                                     |
+| ------ | ------------------------------------------ |
+| 박예진 | [@uiop5809](https://github.com/uiop5809)   |
 | 김지호 | [@jihostudy](https://github.com/jihostudy) |
-| 심수연 | [@letthem](https://github.com/letthem) |
-| 정건우 | [@abcxj123](https://github.com/abcxj123) |
+| 심수연 | [@letthem](https://github.com/letthem)     |
+| 정건우 | [@abcxj123](https://github.com/abcxj123)   |
 
 ---
 
