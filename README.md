@@ -58,6 +58,7 @@ algorithm/
 | 김지호 | [@jihostudy](https://github.com/jihostudy) |
 | 심수연 | [@letthem](https://github.com/letthem)     |
 | 정건우 | [@abcxj123](https://github.com/abcxj123)   |
+| 공예영 | [@yeyounging](https://github.com/yeyounging)|
 
 ---
 
