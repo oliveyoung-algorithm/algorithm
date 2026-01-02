@@ -3,8 +3,7 @@ from collections import defaultdict
 from collections import deque
 
 sys.stdin = open("../input.txt",'r')
-N
-= int(input())
+N = int(input())
 board = []
 for _ in range(N):
   arr = list(map(int,input()))
