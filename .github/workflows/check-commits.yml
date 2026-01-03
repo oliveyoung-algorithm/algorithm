@@ -1,0 +1,38 @@
+name: Check Daily Commits
+
+on:
+  schedule:
+    # 매일 01:00 (UTC 기준, 한국시간 오전 10시)
+    # 한국시간 01:00으로 하려면: cron: '0 16 * * *' (UTC 16시 = 한국시간 01:00)
+    - cron: "0 16 * * *"
+  workflow_dispatch: # 수동 실행도 가능하도록
+
+permissions:
+  contents: write # README.md 업데이트를 위한 권한
+  issues: write # Issue 생성을 위한 권한
+
+jobs:
+  check-commits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0 # 전체 커밋 히스토리 가져오기
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install PyGithub python-dateutil
+
+      - name: Check commits and update README
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python .github/scripts/check_commits.py

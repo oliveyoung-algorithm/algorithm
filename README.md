@@ -52,13 +52,23 @@ algorithm/
 
 ## 참여자
 
-| 이름   | GitHub                                     |
-| ------ | ------------------------------------------ |
-| 박예진 | [@uiop5809](https://github.com/uiop5809)   |
-| 김지호 | [@jihostudy](https://github.com/jihostudy) |
-| 심수연 | [@letthem](https://github.com/letthem)     |
-| 정건우 | [@abcxj123](https://github.com/abcxj123)   |
-| 공예영 | [@yeyounging](https://github.com/yeyounging)|
+| 이름   | GitHub                                       |
+| ------ | -------------------------------------------- |
+| 박예진 | [@uiop5809](https://github.com/uiop5809)     |
+| 김지호 | [@jihostudy](https://github.com/jihostudy)   |
+| 심수연 | [@letthem](https://github.com/letthem)       |
+| 정건우 | [@abcxj123](https://github.com/abcxj123)     |
+| 공예영 | [@yeyounging](https://github.com/yeyounging) |
+
+## 회식비 제공 천사 🪽
+
+| 이름   | 누적 |
+| ------ | ---- |
+| 박예진 | 0원  |
+| 김지호 | 0원  |
+| 심수연 | 0원  |
+| 정건우 | 0원  |
+| 공예영 | 0원  |
 
 ---
 
