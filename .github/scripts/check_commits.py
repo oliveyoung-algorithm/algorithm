@@ -106,10 +106,10 @@ def create_issue(github, repo, participant_name, date_str, penalty_type, amount)
             body=body,
             labels=labels
         )
-        print(f"Issue 생성 완료: {issue.html_url}")
+        print(f"✅ 완료 (Issue #{issue.number})")
         return issue
     except Exception as e:
-        print(f"Issue 생성 중 오류 발생: {e}")
+        print(f"❌ 실패: {e}")
         return None
 
 def update_readme_penalty(participant_name, amount=5000):
@@ -133,10 +133,10 @@ def update_readme_penalty(participant_name, amount=5000):
         if new_content != content:
             with open(readme_path, 'w', encoding='utf-8') as f:
                 f.write(new_content)
-            print(f"README.md 업데이트 완료: {participant_name}님의 적립금 {amount}원 추가")
+            # 로그는 호출하는 쪽에서 출력하므로 여기서는 출력하지 않음
             return True
         else:
-            print(f"README.md 업데이트 실패: {participant_name}님을 찾을 수 없습니다.")
+            print(f"❌ 실패: {participant_name}님을 찾을 수 없습니다.")
             return False
             
     except Exception as e:
@@ -168,12 +168,17 @@ def main():
     yesterday = today - timedelta(days=1)
     date_str = yesterday.strftime('%Y년 %m월 %d일')
     
-    print(f"=== {date_str} 커밋 확인 시작 ===")
+    print(f"{'='*60}")
+    print(f"📅 {date_str} 커밋 확인 시작")
+    print(f"{'='*60}")
     
     # 주말 체크 (평일만 확인)
     weekday = yesterday.weekday()  # 0=월요일, 6=일요일
     if weekday >= 5:  # 토요일(5) 또는 일요일(6)
-        print(f"{date_str}는 주말입니다. 스터디 규칙에 따라 확인을 건너뜁니다.")
+        weekday_name = "토요일" if weekday == 5 else "일요일"
+        print(f"\nℹ️  {date_str}는 {weekday_name}입니다.")
+        print(f"   스터디 규칙에 따라 확인을 건너뜁니다.")
+        print(f"\n{'='*60}")
         return
     
     # 어제 날짜의 시간 범위 (00:00:00 ~ 23:59:59)
@@ -189,24 +194,31 @@ def main():
     late_participants = []  # 어제 커밋이 없었는데 오늘 00:00~01:00 사이에 커밋한 사람들
     
     # 각 참여자의 커밋 확인
-    for name, github_username in PARTICIPANTS.items():
-        print(f"\n{name} (@{github_username}) 확인 중...")
+    print(f"\n📋 총 {len(PARTICIPANTS)}명의 참여자 커밋 확인 시작\n")
+    
+    for idx, (name, github_username) in enumerate(PARTICIPANTS.items(), 1):
+        print(f"[{idx}/{len(PARTICIPANTS)}] Checking {name} (@{github_username})...")
         
         # 어제 커밋 확인
+        print(f"  → 어제 ({yesterday.strftime('%Y-%m-%d')}) 커밋 확인 중...", end=" ")
         has_yesterday_commit = check_user_commits(g, repo, github_username, yesterday_start, yesterday_end)
         
         if not has_yesterday_commit:
-            print(f"❌ {name}님의 어제 커밋이 확인되지 않았습니다.")
+            print("❌ 없음")
             no_commit_participants.append(name)
             
             # 오늘 00:00~01:00 사이에 커밋이 있는지 확인 (지각 체크)
+            print(f"  → 오늘 00:00~01:00 사이 커밋 확인 중...", end=" ")
             has_today_early_commit = check_user_commits(g, repo, github_username, today_start, today_01_00)
             
             if has_today_early_commit:
-                print(f"⏰ {name}님은 오늘 00:00~01:00 사이에 커밋을 완료했습니다. (지각)")
+                print("✅ 있음 (지각)")
                 late_participants.append(name)
+            else:
+                print("❌ 없음 (미제출)")
         else:
-            print(f"✅ {name}님의 어제 커밋이 확인되었습니다.")
+            print("✅ 있음")
+            print(f"  → 상태: 정상 완료")
     
     # 처리할 참여자들
     penalty_participants = []  # 벌금 5000원 (어제 커밋 없음 + 오늘 00:00~01:00 사이에도 커밋 없음)
@@ -217,33 +229,55 @@ def main():
     
     # 벌금 처리 (어제 커밋 없음 = 5000원)
     if penalty_participants:
-        print(f"\n=== 미제출자 {len(penalty_participants)}명 발견 (벌금 5000원) ===")
+        print(f"\n{'='*60}")
+        print(f"⚠️  미제출자 {len(penalty_participants)}명 발견 (벌금 5,000원)")
+        print(f"{'='*60}")
         
         for participant_name in penalty_participants:
+            print(f"\n📌 처리 중: {participant_name}")
+            print(f"  → Issue 생성 중...", end=" ")
             # Issue 생성
             create_issue(g, repo, participant_name, date_str, 'no_commit', 5000)
-            
+            print(f"  → README.md 업데이트 중...", end=" ")
             # README.md 업데이트
-            update_readme_penalty(participant_name, 5000)
+            if update_readme_penalty(participant_name, 5000):
+                print("✅ 완료")
+            else:
+                print("❌ 실패")
     
     # 지각 처리 (어제 커밋 없음 + 오늘 00:00~01:00 사이 커밋 있음 = 3000원)
     if late_participants:
-        print(f"\n=== 지각자 {len(late_participants)}명 발견 (지각 3000원) ===")
+        print(f"\n{'='*60}")
+        print(f"⏰ 지각자 {len(late_participants)}명 발견 (지각 3,000원)")
+        print(f"{'='*60}")
         
         for participant_name in late_participants:
+            print(f"\n📌 처리 중: {participant_name}")
+            print(f"  → Issue 생성 중...", end=" ")
             # Issue 생성
             create_issue(g, repo, participant_name, date_str, 'late', 3000)
-            
+            print(f"  → README.md 업데이트 중...", end=" ")
             # README.md 업데이트
-            update_readme_penalty(participant_name, 3000)
+            if update_readme_penalty(participant_name, 3000):
+                print("✅ 완료")
+            else:
+                print("❌ 실패")
     
     # 변경사항 커밋
     if penalty_participants or late_participants:
+        print(f"\n{'='*60}")
+        print(f"💾 README.md 변경사항 커밋 중...")
+        print(f"{'='*60}")
         try:
             import subprocess
+            print(f"  → Git 설정 중...", end=" ")
             subprocess.run(['git', 'config', 'user.name', 'github-actions[bot]'], check=True)
             subprocess.run(['git', 'config', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
+            print("✅ 완료")
+            
+            print(f"  → 파일 스테이징 중...", end=" ")
             subprocess.run(['git', 'add', 'README.md'], check=True)
+            print("✅ 완료")
             
             commit_message = f'[자동] {date_str} 누적 적립금 업데이트'
             if penalty_participants:
@@ -251,15 +285,24 @@ def main():
             if late_participants:
                 commit_message += f' (지각: {", ".join(late_participants)})'
             
+            print(f"  → 커밋 생성 중...", end=" ")
             subprocess.run(['git', 'commit', '-m', commit_message], check=True)
+            print("✅ 완료")
+            
+            print(f"  → 원격 저장소에 푸시 중...", end=" ")
             subprocess.run(['git', 'push'], check=True)
-            print("\n✅ README.md 변경사항이 커밋되었습니다.")
+            print("✅ 완료")
+            print(f"\n✅ README.md 변경사항이 성공적으로 커밋되었습니다.")
         except Exception as e:
             print(f"\n⚠️ README.md 커밋 중 오류 발생: {e}")
     else:
-        print("\n✅ 모든 참여자가 커밋을 완료했습니다!")
+        print(f"\n{'='*60}")
+        print(f"✅ 모든 참여자가 커밋을 완료했습니다!")
+        print(f"{'='*60}")
     
-    print(f"\n=== {date_str} 커밋 확인 완료 ===")
+    print(f"\n{'='*60}")
+    print(f"🎉 {date_str} 커밋 확인 완료")
+    print(f"{'='*60}")
 
 if __name__ == '__main__':
     main()
