@@ -1,3 +1,4 @@
+# https://www.acmicpc.net/problem/7562
 import sys
 from collections import defaultdict
 from collections import deque
