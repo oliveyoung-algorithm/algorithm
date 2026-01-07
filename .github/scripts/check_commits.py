@@ -41,26 +41,62 @@ def get_today_kst():
     """한국 시간 기준 오늘 날짜를 반환합니다."""
     return datetime.now(KST).date()
 
-def check_user_commits(github, repo, username, start_time, end_time):
-    """특정 사용자가 특정 시간 범위에 커밋이 있는지 확인합니다."""
+def check_user_commits(github, repo, participant_name, username, start_time, end_time):
+    """특정 사용자가 특정 시간 범위에 커밋이 있는지 확인합니다.
+    
+    Args:
+        github: GitHub API 인스턴스
+        repo: Repository 객체
+        participant_name: 참여자 이름 
+        username: GitHub username
+        start_time: 시작 시간 (KST)
+        end_time: 종료 시간 (KST)
+    """
     try:
         # UTC로 변환
         start_time_utc = start_time.astimezone(timezone.utc)
         end_time_utc = end_time.astimezone(timezone.utc)
         
-        # 커밋 검색 (해당 시간 범위 내)
-        commits = repo.get_commits(
-            author=username,
+        # 해당 시간 범위의 모든 커밋 가져오기
+        all_commits = repo.get_commits(
             since=start_time_utc,
             until=end_time_utc
         )
         
-        # 커밋이 있는지 확인
-        commit_count = sum(1 for _ in commits)
-        return commit_count > 0
+        # 검색할 키워드들 (소문자로 변환)
+        search_keywords = [
+            participant_name.lower(),  # 예: '공예영'
+            username.lower()  # 예: 'yeyounging'
+        ]
+        
+        # 각 커밋의 author 정보 확인
+        for commit in all_commits:
+            # 1. GitHub author 정보 확인 (commit.author - GitHub 사용자)
+            if commit.author and commit.author.login:
+                author_login = commit.author.login.lower()
+                if any(keyword in author_login for keyword in search_keywords):
+                    return True
+            
+            # 2. Git commit author 정보 확인 (commit.commit.author - Git author)
+            if commit.commit and commit.commit.author:
+                git_author = commit.commit.author
+                
+                # Git author name 확인
+                if git_author.name:
+                    git_name = git_author.name.lower()
+                    if any(keyword in git_name for keyword in search_keywords):
+                        return True
+                
+                # Git author email 확인
+                if git_author.email:
+                    git_email = git_author.email.lower()
+                    if any(keyword in git_email for keyword in search_keywords):
+                        return True
+        
+        return False
         
     except Exception as e:
-        print(f"사용자 {username}의 커밋 확인 중 오류 발생: {e}")
+        print(f"  ⚠️  오류: {e}")
         return False
 
 def create_issue(github, repo, participant_name, date_str, penalty_type, amount):
@@ -114,7 +150,8 @@ def create_issue(github, repo, participant_name, date_str, penalty_type, amount)
 
 def update_readme_penalty(participant_name, amount=5000):
     """README.md의 누적 적립금을 업데이트합니다."""
-    readme_path = 'README.md'
+    # README.md 경로 확인 (src/README.md 또는 README.md)
+    readme_path = 'src/README.md' if os.path.exists('src/README.md') else 'README.md'
     
     try:
         with open(readme_path, 'r', encoding='utf-8') as f:
@@ -201,7 +238,7 @@ def main():
         
         # 어제 커밋 확인
         print(f"  → 어제 ({yesterday.strftime('%Y-%m-%d')}) 커밋 확인 중...", end=" ")
-        has_yesterday_commit = check_user_commits(g, repo, github_username, yesterday_start, yesterday_end)
+        has_yesterday_commit = check_user_commits(g, repo, name, github_username, yesterday_start, yesterday_end)
         
         if not has_yesterday_commit:
             print("❌ 없음")
@@ -209,7 +246,7 @@ def main():
             
             # 오늘 00:00~01:00 사이에 커밋이 있는지 확인 (지각 체크)
             print(f"  → 오늘 00:00~01:00 사이 커밋 확인 중...", end=" ")
-            has_today_early_commit = check_user_commits(g, repo, github_username, today_start, today_01_00)
+            has_today_early_commit = check_user_commits(g, repo, name, github_username, today_start, today_01_00)
             
             if has_today_early_commit:
                 print("✅ 있음 (지각)")
@@ -276,7 +313,9 @@ def main():
             print("✅ 완료")
             
             print(f"  → 파일 스테이징 중...", end=" ")
-            subprocess.run(['git', 'add', 'README.md'], check=True)
+            # README.md 경로 확인
+            readme_git_path = 'src/README.md' if os.path.exists('src/README.md') else 'README.md'
+            subprocess.run(['git', 'add', readme_git_path], check=True)
             print("✅ 완료")
             
             commit_message = f'[자동] {date_str} 누적 적립금 업데이트'
