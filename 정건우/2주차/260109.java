@@ -19,6 +19,7 @@ public class BOJ_S4_1359_복권 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
+        
         picks = new int[M];
         v = new boolean[N];
         set = new HashSet<>();
