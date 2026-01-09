@@ -10,10 +10,90 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: choam2426/AI-Algorithm-Mentor@v5
+      - name: AI Review (Attempt 1)
+        id: attempt1
+        continue-on-error: true
+        uses: choam2426/AI-Algorithm-Mentor@v5
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LLM_PROVIDER: google # openai, google, anthropic
-          MODEL_NAME: gemini-3-pro-preview # 모델명 (선택사항)
+          LLM_PROVIDER: google
+          MODEL_NAME: gemini-3-pro-preview
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          REVIEW_LANGUAGE: korean # korean, english, etc..
+          REVIEW_LANGUAGE: korean
+
+      - name: Wait before retry (10초)
+        if: steps.attempt1.conclusion == 'failure'
+        run: |
+          echo "재시도 대기 중... (10초)"
+          sleep 10
+
+      - name: AI Review (Attempt 2)
+        id: attempt2
+        if: steps.attempt1.conclusion == 'failure'
+        continue-on-error: true
+        uses: choam2426/AI-Algorithm-Mentor@v5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_PROVIDER: google
+          MODEL_NAME: gemini-3-pro-preview
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          REVIEW_LANGUAGE: korean
+
+      - name: Wait before retry (15초)
+        if: steps.attempt2.conclusion == 'failure'
+        run: |
+          echo "재시도 대기 중... (15초)"
+          sleep 15
+
+      - name: AI Review (Attempt 3)
+        id: attempt3
+        if: steps.attempt2.conclusion == 'failure'
+        continue-on-error: true
+        uses: choam2426/AI-Algorithm-Mentor@v5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_PROVIDER: google
+          MODEL_NAME: gemini-3-pro-preview
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          REVIEW_LANGUAGE: korean
+
+      - name: Wait before retry (20초)
+        if: steps.attempt3.conclusion == 'failure'
+        run: |
+          echo "재시도 대기 중... (20초)"
+          sleep 20
+
+      - name: AI Review (Attempt 4)
+        id: attempt4
+        if: steps.attempt3.conclusion == 'failure'
+        continue-on-error: true
+        uses: choam2426/AI-Algorithm-Mentor@v5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_PROVIDER: google
+          MODEL_NAME: gemini-3-pro-preview
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          REVIEW_LANGUAGE: korean
+
+      - name: Wait before retry (30초)
+        if: steps.attempt4.conclusion == 'failure'
+        run: |
+          echo "재시도 대기 중... (30초)"
+          sleep 30
+
+      - name: AI Review (Attempt 5)
+        id: attempt5
+        if: steps.attempt4.conclusion == 'failure'
+        uses: choam2426/AI-Algorithm-Mentor@v5
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LLM_PROVIDER: google
+          MODEL_NAME: gemini-3-pro-preview
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          REVIEW_LANGUAGE: korean
+
+      - name: Check if all attempts failed
+        if: steps.attempt5.conclusion == 'failure'
+        run: |
+          echo "::error::모든 AI 리뷰 시도가 실패했습니다 (5회 시도)"
+          exit 1 
