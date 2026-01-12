@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-매일 01:00에 실행되어 각 참여자의 커밋을 확인하고,
+매일 00:00에 실행되어 각 참여자의 커밋을 확인하고,
 - 어제 커밋이 없는 경우: 벌금 5000원
-- 어제 커밋이 없었는데 오늘 00:00~01:00 사이에 커밋한 경우: 지각 3000원
 Issue를 생성하고 README.md의 누적 적립금을 업데이트합니다.
 """
 
@@ -100,27 +99,9 @@ def check_user_commits(github, repo, participant_name, username, start_time, end
         return False
 
 def create_issue(github, repo, participant_name, date_str, penalty_type, amount):
-    """미제출자 또는 지각자에 대한 Issue를 생성합니다."""
-    if penalty_type == 'late':
-        title = f"⏰ {date_str} 지각: {participant_name}"
-        body = f"""
-## 지각 알림
-
-**날짜**: {date_str}
-**참여자**: {participant_name}
-
-{participant_name}님은 {date_str}에 커밋이 없었지만, 다음 날 00:00~01:00 사이에 커밋을 완료했습니다.
-
-스터디 규칙에 따라 **3,000원**이 누적 적립금에 추가되었습니다.
-
----
-
-*이 Issue는 자동으로 생성되었습니다.*
-"""
-        labels = ['지각', '자동생성']
-    else:  # penalty_type == 'no_commit'
-        title = f"⚠️ {date_str} 미제출: {participant_name}"
-        body = f"""
+    """미제출자에 대한 Issue를 생성합니다."""
+    title = f"⚠️ {date_str} 미제출: {participant_name}"
+    body = f"""
 ## 미제출 알림
 
 **날짜**: {date_str}
@@ -134,7 +115,7 @@ def create_issue(github, repo, participant_name, date_str, penalty_type, amount)
 
 *이 Issue는 자동으로 생성되었습니다.*
 """
-        labels = ['미제출', '자동생성']
+    labels = ['미제출', '자동생성']
     
     try:
         issue = repo.create_issue(
@@ -200,7 +181,7 @@ def main():
         return
     
     # 확인할 날짜 (어제 날짜, 한국 시간 기준)
-    # 워크플로우가 01:00에 실행되므로 어제 날짜의 커밋을 확인
+    # 워크플로우가 00:00에 실행되므로 어제 날짜의 커밋을 확인
     today = get_today_kst()
     yesterday = today - timedelta(days=1)
     date_str = yesterday.strftime('%Y년 %m월 %d일')
@@ -221,56 +202,33 @@ def main():
     # 어제 날짜의 시간 범위 (00:00:00 ~ 23:59:59)
     yesterday_start = datetime.combine(yesterday, datetime.min.time()).replace(tzinfo=KST)
     yesterday_end = datetime.combine(today, datetime.min.time()).replace(tzinfo=KST)  # 오늘 00:00:00
-    
-    # 오늘 00:00~01:00 사이의 시간 범위 (지각 체크용)
-    from datetime import time as dt_time
-    today_start = datetime.combine(today, dt_time(0, 0, 0)).replace(tzinfo=KST)  # 오늘 00:00:00
-    today_01_00 = datetime.combine(today, dt_time(1, 0, 0)).replace(tzinfo=KST)  # 오늘 01:00:00
-    
+
     no_commit_participants = []  # 어제 커밋이 없는 사람들
-    late_participants = []  # 어제 커밋이 없었는데 오늘 00:00~01:00 사이에 커밋한 사람들
     
     # 각 참여자의 커밋 확인
     print(f"\n📋 총 {len(PARTICIPANTS)}명의 참여자 커밋 확인 시작\n")
     
     for idx, (name, github_username) in enumerate(PARTICIPANTS.items(), 1):
         print(f"[{idx}/{len(PARTICIPANTS)}] Checking {name} (@{github_username})...")
-        
+
         # 어제 커밋 확인
         print(f"  → 어제 ({yesterday.strftime('%Y-%m-%d')}) 커밋 확인 중...", end=" ")
         has_yesterday_commit = check_user_commits(g, repo, name, github_username, yesterday_start, yesterday_end)
-        
+
         if not has_yesterday_commit:
-            print("❌ 없음")
+            print("❌ 없음 (미제출)")
             no_commit_participants.append(name)
-            
-            # 오늘 00:00~01:00 사이에 커밋이 있는지 확인 (지각 체크)
-            print(f"  → 오늘 00:00~01:00 사이 커밋 확인 중...", end=" ")
-            has_today_early_commit = check_user_commits(g, repo, name, github_username, today_start, today_01_00)
-            
-            if has_today_early_commit:
-                print("✅ 있음 (지각)")
-                late_participants.append(name)
-            else:
-                print("❌ 없음 (미제출)")
         else:
             print("✅ 있음")
             print(f"  → 상태: 정상 완료")
     
-    # 처리할 참여자들
-    penalty_participants = []  # 벌금 5000원 (어제 커밋 없음 + 오늘 00:00~01:00 사이에도 커밋 없음)
-    
-    for participant in no_commit_participants:
-        if participant not in late_participants:
-            penalty_participants.append(participant)
-    
     # 벌금 처리 (어제 커밋 없음 = 5000원)
-    if penalty_participants:
+    if no_commit_participants:
         print(f"\n{'='*60}")
-        print(f"⚠️  미제출자 {len(penalty_participants)}명 발견 (벌금 5,000원)")
+        print(f"⚠️  미제출자 {len(no_commit_participants)}명 발견 (벌금 5,000원)")
         print(f"{'='*60}")
-        
-        for participant_name in penalty_participants:
+
+        for participant_name in no_commit_participants:
             print(f"\n📌 처리 중: {participant_name}")
             print(f"  → Issue 생성 중...", end=" ")
             # Issue 생성
@@ -282,26 +240,8 @@ def main():
             else:
                 print("❌ 실패")
     
-    # 지각 처리 (어제 커밋 없음 + 오늘 00:00~01:00 사이 커밋 있음 = 3000원)
-    if late_participants:
-        print(f"\n{'='*60}")
-        print(f"⏰ 지각자 {len(late_participants)}명 발견 (지각 3,000원)")
-        print(f"{'='*60}")
-        
-        for participant_name in late_participants:
-            print(f"\n📌 처리 중: {participant_name}")
-            print(f"  → Issue 생성 중...", end=" ")
-            # Issue 생성
-            create_issue(g, repo, participant_name, date_str, 'late', 3000)
-            print(f"  → README.md 업데이트 중...", end=" ")
-            # README.md 업데이트
-            if update_readme_penalty(participant_name, 3000):
-                print("✅ 완료")
-            else:
-                print("❌ 실패")
-    
     # 변경사항 커밋
-    if penalty_participants or late_participants:
+    if no_commit_participants:
         print(f"\n{'='*60}")
         print(f"💾 README.md 변경사항 커밋 중...")
         print(f"{'='*60}")
@@ -311,23 +251,19 @@ def main():
             subprocess.run(['git', 'config', 'user.name', 'github-actions[bot]'], check=True)
             subprocess.run(['git', 'config', 'user.email', 'github-actions[bot]@users.noreply.github.com'], check=True)
             print("✅ 완료")
-            
+
             print(f"  → 파일 스테이징 중...", end=" ")
             # README.md 경로 확인
             readme_git_path = 'src/README.md' if os.path.exists('src/README.md') else 'README.md'
             subprocess.run(['git', 'add', readme_git_path], check=True)
             print("✅ 완료")
-            
-            commit_message = f'[자동] {date_str} 누적 적립금 업데이트'
-            if penalty_participants:
-                commit_message += f' (미제출: {", ".join(penalty_participants)})'
-            if late_participants:
-                commit_message += f' (지각: {", ".join(late_participants)})'
-            
+
+            commit_message = f'[자동] {date_str} 누적 적립금 업데이트 (미제출: {", ".join(no_commit_participants)})'
+
             print(f"  → 커밋 생성 중...", end=" ")
             subprocess.run(['git', 'commit', '-m', commit_message], check=True)
             print("✅ 완료")
-            
+
             print(f"  → 원격 저장소에 푸시 중...", end=" ")
             subprocess.run(['git', 'push'], check=True)
             print("✅ 완료")
