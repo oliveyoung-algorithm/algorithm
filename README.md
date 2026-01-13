@@ -59,6 +59,7 @@ algorithm/
 | 정건우 | [@abcxj123](https://github.com/abcxj123)     |
 | 공예영 | [@yeyounging](https://github.com/yeyounging) |
 | 서정우 | [@ShipFriend0516](https://github.com/ShipFriend0516) |
+| 허현빈 | [@hyeonbinHur](https://github.com/hyeonbinHur) |
 
 ## 회식비 제공 천사 🪽
 
@@ -70,6 +71,7 @@ algorithm/
 | 정건우 | 0원  |
 | 공예영 | 13000원  |
 | 서정우 | 0원  |
+| 허현빈 | 0원  |
 
 ---
 
