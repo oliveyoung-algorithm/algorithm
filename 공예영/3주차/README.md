@@ -7,6 +7,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0001-two-sum](https://github.com/yeyounging/Algorithm/tree/master/0001-two-sum) |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
 | [0121-best-time-to-buy-and-sell-stock](https://github.com/yeyounging/Algorithm/tree/master/0121-best-time-to-buy-and-sell-stock) |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
 | [0704-binary-search](https://github.com/yeyounging/Algorithm/tree/master/0704-binary-search) |
 ## Hash Table
 |  |
@@ -15,6 +16,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0013-roman-to-integer](https://github.com/yeyounging/Algorithm/tree/master/0013-roman-to-integer) |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
 | [0242-valid-anagram](https://github.com/yeyounging/Algorithm/tree/master/0242-valid-anagram) |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
 ## String
 |  |
 | ------- |
@@ -28,6 +30,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | ------- |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
 | [0242-valid-anagram](https://github.com/yeyounging/Algorithm/tree/master/0242-valid-anagram) |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
 ## Two Pointers
 |  |
 | ------- |
@@ -76,4 +79,24 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0013-roman-to-integer](https://github.com/yeyounging/Algorithm/tree/master/0013-roman-to-integer) |
+## Divide and Conquer
+|  |
+| ------- |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
+## Heap (Priority Queue)
+|  |
+| ------- |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
+## Bucket Sort
+|  |
+| ------- |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
+## Counting
+|  |
+| ------- |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
+## Quickselect
+|  |
+| ------- |
+| [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
 <!---LeetCode Topics End-->
