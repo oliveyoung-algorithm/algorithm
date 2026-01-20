@@ -30,7 +30,9 @@ PARTICIPANTS = {
     '김지호': 'jihostudy',
     '심수연': 'letthem',
     '정건우': 'abcxj123',
-    '공예영': 'yeyounging'
+    '공예영': 'yeyounging',
+    '서정우': 'ShipFriend0516',
+    '허현빈': 'hyeonbinHur'
 }
 
 # 한국 시간대
