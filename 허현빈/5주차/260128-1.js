@@ -27,3 +27,6 @@ var merge = function (intervals) {
   ans.push([preStart, preEnd]);
   return ans;
 };
+
+// 시간복잡도 O(N)
+// 공간복잡도 O(2N)
