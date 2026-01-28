@@ -7,6 +7,9 @@ dict = {}
 
 for i in input:
   word = i.strip()
+  if not word: 
+    continue
+  
   if word in dict:
     dict[word] += 1
   else:
@@ -17,15 +20,9 @@ for i in input:
 
 # 조건: 사전순으로 출력하고, 그 종이 차지하는 비율을 백분율로 소수점 4째자리까지 반올림
 
-# 사전순으로 출력
-# lambda word
-# 소문자로 바꿨을 때 min부터 나와야 함 
-sorted_dict = sorted(dict, key=lambda word: word.lower())
-# ['Ash', 'Aspen', 'Basswood', 'Beech', 'Black Walnut', 'Cherry', 'Cottonwood', 'Cypress', 'Gum', 'Hackberry', 'Hard Maple', 'Hickory', 'Pecan', 'Poplan', 'Red Alder', 'Red Elm', 'Red Oak', 'Sassafras', 'Soft Maple', 'Sycamore', 'White Oak', 'Willow', 'Yellow Birch']
-
 total = sum(dict.values())
 
-for word in sorted_dict:
+for word in sorted(dict):
   ratio = dict[word] / total * 100
   print(f"{word} {ratio:.4f}") # 소수점 4째자리까지 반올림
  
