@@ -8,6 +8,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0011-container-with-most-water](https://github.com/yeyounging/Algorithm/tree/master/0011-container-with-most-water) |
 | [0014-longest-common-prefix](https://github.com/yeyounging/Algorithm/tree/master/0014-longest-common-prefix) |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
+| [0088-merge-sorted-array](https://github.com/yeyounging/Algorithm/tree/master/0088-merge-sorted-array) |
 | [0121-best-time-to-buy-and-sell-stock](https://github.com/yeyounging/Algorithm/tree/master/0121-best-time-to-buy-and-sell-stock) |
 | [0238-product-of-array-except-self](https://github.com/yeyounging/Algorithm/tree/master/0238-product-of-array-except-self) |
 | [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
@@ -34,12 +35,14 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
+| [0088-merge-sorted-array](https://github.com/yeyounging/Algorithm/tree/master/0088-merge-sorted-array) |
 | [0242-valid-anagram](https://github.com/yeyounging/Algorithm/tree/master/0242-valid-anagram) |
 | [0347-top-k-frequent-elements](https://github.com/yeyounging/Algorithm/tree/master/0347-top-k-frequent-elements) |
 ## Two Pointers
 |  |
 | ------- |
 | [0011-container-with-most-water](https://github.com/yeyounging/Algorithm/tree/master/0011-container-with-most-water) |
+| [0088-merge-sorted-array](https://github.com/yeyounging/Algorithm/tree/master/0088-merge-sorted-array) |
 | [0125-valid-palindrome](https://github.com/yeyounging/Algorithm/tree/master/0125-valid-palindrome) |
 ## Dynamic Programming
 |  |
