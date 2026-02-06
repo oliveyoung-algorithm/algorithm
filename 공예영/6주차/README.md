@@ -9,6 +9,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | [0014-longest-common-prefix](https://github.com/yeyounging/Algorithm/tree/master/0014-longest-common-prefix) |
 | [0049-group-anagrams](https://github.com/yeyounging/Algorithm/tree/master/0049-group-anagrams) |
 | [0055-jump-game](https://github.com/yeyounging/Algorithm/tree/master/0055-jump-game) |
+| [0078-subsets](https://github.com/yeyounging/Algorithm/tree/master/0078-subsets) |
 | [0088-merge-sorted-array](https://github.com/yeyounging/Algorithm/tree/master/0088-merge-sorted-array) |
 | [0121-best-time-to-buy-and-sell-stock](https://github.com/yeyounging/Algorithm/tree/master/0121-best-time-to-buy-and-sell-stock) |
 | [0238-product-of-array-except-self](https://github.com/yeyounging/Algorithm/tree/master/0238-product-of-array-except-self) |
@@ -130,6 +131,7 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 | ------- |
 | [0022-generate-parentheses](https://github.com/yeyounging/Algorithm/tree/master/0022-generate-parentheses) |
 | [0077-combinations](https://github.com/yeyounging/Algorithm/tree/master/0077-combinations) |
+| [0078-subsets](https://github.com/yeyounging/Algorithm/tree/master/0078-subsets) |
 ## Prefix Sum
 |  |
 | ------- |
@@ -138,4 +140,8 @@ A collection of LeetCode questions to ace the coding interview! - Created using 
 |  |
 | ------- |
 | [0043-multiply-strings](https://github.com/yeyounging/Algorithm/tree/master/0043-multiply-strings) |
+## Bit Manipulation
+|  |
+| ------- |
+| [0078-subsets](https://github.com/yeyounging/Algorithm/tree/master/0078-subsets) |
 <!---LeetCode Topics End-->
