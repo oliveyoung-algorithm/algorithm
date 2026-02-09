@@ -1,3 +1,4 @@
+//https://www.acmicpc.net/problem/18330
 import java.util.Scanner;
 
 public class BOJ_B4_18330_Petrol {
