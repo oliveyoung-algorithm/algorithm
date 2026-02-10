@@ -31,6 +31,5 @@ public class BOJ_S2_20162_간식파티 {
         }
 
         System.out.println(max);
-
     }
 }
