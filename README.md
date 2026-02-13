@@ -60,6 +60,8 @@ algorithm/
 | 공예영 | [@yeyounging](https://github.com/yeyounging) |
 | 서정우 | [@ShipFriend0516](https://github.com/ShipFriend0516) |
 | 허현빈 | [@hyeonbinHur](https://github.com/hyeonbinHur) |
+| 이용훈 | [@2YH02](https://github.com/2YH02)           |
+| 최어진 | [@poodlepoodle](https://github.com/poodlepoodle) |
 
 ## 회식비 제공 천사 🪽
 
@@ -72,6 +74,10 @@ algorithm/
 | 공예영 | 33000원  |
 | 서정우 | 10000원  |
 | 허현빈 | 15000원  |
+| 이용훈 | 0원  |
+| 최어진 | 0원  |
+
+**총 회식비: 78,000원**
 
 ---
 

@@ -32,7 +32,9 @@ PARTICIPANTS = {
     '정건우': 'abcxj123',
     '공예영': 'yeyounging',
     '서정우': 'ShipFriend0516',
-    '허현빈': 'hyeonbinHur'
+    '허현빈': 'hyeonbinHur',
+    '이용훈': '2YH02',
+    '최어진': 'poodlepoodle'
 }
 
 # 한국 시간대
