@@ -2,8 +2,8 @@ name: Check Daily Commits
 
 on:
   schedule:
-    # 매일 04:00 (UTC 기준, 한국시간 13:00, 오후 1시)
-    - cron: "0 4 * * *"
+    # 매일 15:00 (UTC 기준, 한국시간 00:00, 자정)
+    - cron: "0 15 * * *"
   workflow_dispatch: # 수동 실행도 가능하도록
 
 permissions:
