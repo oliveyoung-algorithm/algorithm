@@ -4,15 +4,25 @@
  * @return {number}
  */
 var canCompleteCircuit = function(gas, cost) {
-    let total = 0, current = 0, start = 0;
-    for (let i = 0; i < gas.length; i++) {
-        let diff = gas[i] - cost[i];
-        total += diff;
-        current += diff;
-        if (current < 0) {
-            start = i + 1;
-            current = 0;
+        // two pointers 
+        let start = 0;
+        let end = 0;
+        let sum =  gas[start] - cost[start];
+        const len = gas.length;
+
+        while(start < len){
+                if(sum < 0){
+                    start = end+1;
+                    end = start;
+                    sum = gas[start] - cost[start];
+                } else {
+                    if(end-start === len-1) return start;
+                    end++;
+                    let endIdx = end % len;
+                    sum += gas[endIdx]-cost[endIdx];
+                }
+                
         }
-    }
-    return total >= 0 ? start : -1;
+        return -1;
+    
 };
