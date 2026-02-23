@@ -1,4 +1,4 @@
-//https://www.acmicpc.net/problem/7576
+// https://www.acmicpc.net/problem/7576
 #include <iostream>
 #include <vector>
 #include <queue>
