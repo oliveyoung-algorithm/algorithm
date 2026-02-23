@@ -11,7 +11,7 @@ def bfs():
   dx = [-1, 1, 0, 0]
   dy = [0, 0, -1, 1]
 
-	# multi source dfs
+	# multi source bfs
   q = deque()
   for i in range(N):
     for j in range(M):
