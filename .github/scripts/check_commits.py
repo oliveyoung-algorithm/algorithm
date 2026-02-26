@@ -134,33 +134,57 @@ def create_issue(github, repo, participant_name, date_str, penalty_type, amount)
         return None
 
 def update_readme_penalty(participant_name, amount=5000):
-    """README.md의 누적 적립금을 업데이트합니다."""
+    """README.md의 합류 후 누적 적립금을 업데이트합니다."""
     # README.md 경로 확인 (src/README.md 또는 README.md)
     readme_path = 'src/README.md' if os.path.exists('src/README.md') else 'README.md'
-    
+
     try:
         with open(readme_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        
-        # 누적 적립금 섹션 찾기
+
+        # 합류 후 섹션만 찾기
+        section_pattern = r'(<!-- 합류후_START -->)(.*?)(<!-- 합류후_END -->)'
+        section_match = re.search(section_pattern, content, re.DOTALL)
+
+        if not section_match:
+            print(f"❌ 실패: 합류 후 테이블 섹션을 찾을 수 없습니다.")
+            return False
+
+        section = section_match.group(2)
+
+        # 해당 참여자의 금액 업데이트
         pattern = rf'(\| {re.escape(participant_name)} \| )(\d+)원'
-        
+
         def replace_amount(match):
             current_amount = int(match.group(2))
             new_amount = current_amount + amount
             return f'{match.group(1)}{new_amount}원'
-        
-        new_content = re.sub(pattern, replace_amount, content)
-        
-        if new_content != content:
-            with open(readme_path, 'w', encoding='utf-8') as f:
-                f.write(new_content)
-            # 로그는 호출하는 쪽에서 출력하므로 여기서는 출력하지 않음
-            return True
-        else:
+
+        new_section = re.sub(pattern, replace_amount, section)
+
+        if new_section == section:
             print(f"❌ 실패: {participant_name}님을 찾을 수 없습니다.")
             return False
-            
+
+        # 총액 재계산 (테이블 행에서만 추출)
+        amounts = re.findall(r'^\| \S+ \| (\d+)원', new_section, re.MULTILINE)
+        total = sum(int(a) for a in amounts)
+
+        # 총액 업데이트
+        new_section = re.sub(
+            r'\*\*총 추가 회식비: [\d,]+원\*\*',
+            f'**총 추가 회식비: {total:,}원**',
+            new_section
+        )
+
+        # 섹션을 원본에 다시 넣기
+        new_content = content[:section_match.start(2)] + new_section + content[section_match.end(2):]
+
+        with open(readme_path, 'w', encoding='utf-8') as f:
+            f.write(new_content)
+        # 로그는 호출하는 쪽에서 출력하므로 여기서는 출력하지 않음
+        return True
+
     except Exception as e:
         print(f"README.md 업데이트 중 오류 발생: {e}")
         return False
