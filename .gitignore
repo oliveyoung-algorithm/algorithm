@@ -1,0 +1,9 @@
+# Test file
+test.cpp
+
+# Compiled executables (no extension on macOS/Linux)
+a.out
+*.out
+
+# macOS
+.DS_Store
