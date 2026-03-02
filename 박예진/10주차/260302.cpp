@@ -69,7 +69,6 @@ int main(){
         memset(visited, 0, sizeof(visited));
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                // 조건 제대로?
                 if (h < arr[i][j] && !visited[i][j]) {
                     bfs(i, j, h); // 안전영역 개수 세기
                     cnt++;
