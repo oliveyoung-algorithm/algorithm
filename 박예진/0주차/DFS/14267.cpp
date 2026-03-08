@@ -42,6 +42,5 @@ int main(){
         cout << res[i] << " ";
     }
 
-
     return 0;
 }
