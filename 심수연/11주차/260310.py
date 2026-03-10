@@ -12,8 +12,8 @@ for i in range(1, N + 1):
   if i < 100:
     count += 1 # 100 이상이면 99만큼 무조건 더해짐
   else: # 세자리수 (N < 1000 이므로)
-    minus1 = int(str(N)[0]) - int(str(N)[1])
-    minus2 = int(str(N)[1]) - int(str(N)[2])
+    minus1 = int(str(i)[0]) - int(str(i)[1])
+    minus2 = int(str(i)[1]) - int(str(i)[2])
     if minus1 == minus2:
       count += 1
 
