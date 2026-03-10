@@ -1,5 +1,7 @@
 # 올리브영 알고리즘 스터디
 
+![cover-image](https://github.com/user-attachments/assets/e0c27686-1b49-4196-bf37-82cb2b614209)
+
 ## 스터디 규칙
 
 - **시작일**: 2025년 12월 29일 (월)
