@@ -1,10 +1,15 @@
-# https://www.acmicpc.net/problem/10817
+# https://www.acmicpc.net/problem/10989
 
 import sys
 input = sys.stdin.readline
 
-nums = list(map(int, input().split()))
+N = int(input())
+count = [0] * 10001
 
-nums.sort(reverse=True)
+for _ in range(N):
+    num = int(input())
+    count[num] += 1
 
-print(nums[1])
+for i in range(1, 10001):
+    for _ in range(count[i]):
+        print(i)
