@@ -172,8 +172,8 @@ def update_readme_penalty(participant_name, amount=5000):
 
         # 총액 업데이트
         new_section = re.sub(
-            r'\*\*총 추가 회식비: [\d,]+원\*\*',
-            f'**총 추가 회식비: {total:,}원**',
+            r'\*\*총 회식비: [\d,]+원\*\*',
+            f'**총 회식비: {total:,}원**',
             new_section
         )
 
